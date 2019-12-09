@@ -9,15 +9,18 @@ import Brute from './components/Brute';
 
 function App() {
   return (
-    <div className="App">
+      <div className="App">
         <h1>Champs de bataille</h1>
-      <section>
-        <Wizard/>
-        <Knight/>
-        <Archer/>
-        <Brute/>
-      </section>
-    </div>
+        <div className="row">
+          <div className="col-md-8">
+            <h2>Joueur 1</h2>
+            <Wizard/>
+            <Knight/>
+            <Archer/>
+            <Brute/>
+          </div>
+        </div>
+      </div>
   );
 }
 

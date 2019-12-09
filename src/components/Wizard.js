@@ -6,11 +6,12 @@ export default class Wizard extends Component {
 
     render() {
         return (
-            <span>
+            <span className="col-md-4">
                 <img 
                 src="/img/wizard.png"
-                style={{width: "235px"}}
-                 />
+                style={{width: "215px"}}
+                alt="wizard"
+                />
             </span>
         )
     }

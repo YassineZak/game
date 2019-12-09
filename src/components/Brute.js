@@ -3,11 +3,12 @@ import React, { Component } from 'react'
 export default class Brute extends Component {
     render() {
         return (
-            <span>
+            <span className="col-md-4">
                 <img 
                 src="/img/brute.png"
-                style={{width: "250px"}}
-                 />
+                style={{width: "215px"}}
+                alt="brute"
+                />
             </span>
         )
     }
