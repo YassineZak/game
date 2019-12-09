@@ -12,7 +12,7 @@ function App() {
       <div className="App">
         <h1>Champs de bataille</h1>
         <div className="row">
-          <div className="col-md-8">
+          <div className="col-md-6">
             <h2>Joueur 1</h2>
             <Wizard/>
             <Knight/>
