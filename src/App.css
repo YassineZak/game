@@ -1,6 +1,11 @@
 .App {
   text-align: center;
 }
-section span{
-  margin-right: 30px;
+.conteneur{
+  width: 100%;
+  margin-top: 100px;
+}
+.battlefield{
+  margin-top: 150px;
+  height: 500px;
 }
