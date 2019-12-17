@@ -10,6 +10,7 @@ const Root = () => (
     <BrowserRouter>
         <Switch>
             <Route exact path="/" component={Connexion} />
+            <Route exact path="/game" component={App} />
         </Switch>
     </BrowserRouter>
 )

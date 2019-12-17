@@ -1,67 +1,107 @@
-import React from "react";
+import React, {Component} from "react";
+import Firebase from 'firebase/app'
 
-const Connexion = () => {
-    return (
-        <div className="materialContainer">
-            <div className="box">
-            <div className="title">LOGIN</div>
+export default class Connexion extends Component {
 
-            <div className="input">
-            <label for="name">Username</label>
-            <input type="text" name="name" id="name" />
-            <span className="spin"></span>
-            </div>
+    constructor(props){
+        super(props);
+        Firebase.initializeApp({
+            apiKey: "AIzaSyBMAC5eNDGbE0cRPnBXga7r_aYP5oMRcPk",
+            authDomain: "game-b7b59.firebaseapp.com",
+            databaseURL: "https://game-b7b59.firebaseio.com"
+        })
+    }
 
-            <div className="input">
-            <label for="pass">Password</label>
-            <input type="password" name="pass" id="pass" />
-            <span className="spin"></span>
-            </div>
+    state = {
+        username: "",
+        pwd: "",
+        repeatPwd: ""
+    }
 
-            <div className="button login">
-            <button>
-            <span>GO</span> <i className="fa fa-check"></i>
-            </button>
-            </div>
+    handleUsername = (event) => {
+        const username = event.target.value
+        this.setState({username})
+    }
+    handlePwd = (event) => {
+        const pwd = event.target.value
+        this.setState({pwd})
+    }
+    handleRepeatPwd = (event) => {
+        const repeatPwd = event.target.value
+        this.setState({repeatPwd})
+    }
 
-            <a href="google.com" className="pass-forgot">
-            Forgot your password?
-            </a>
-            </div>
+    handleSubmit = (event) => {
+        event.preventDefault()
+        Firebase.database().ref('/').set("ok");
+        
+        
+        }
 
-        <div className="overbox">
-            <div className="material-button alt-2">
-            <span className="shape"></span>
-            </div>
 
-            <div className="title">REGISTER</div>
+    render(){
+        return (
+            <div className="materialContainer">
+                <div className="box">
+                <div className="title">LOGIN</div>
 
-            <div className="input">
-            <label for="regname">Username</label>
-            <input type="text" name="regname" id="regname" />
-            <span className="spin"></span>
-            </div>
+                <div className="input">
+                <label htmlFor="name">Username</label>
+                <input type="text" name="name" id="name" />
+                <span className="spin"></span>
+                </div>
 
-            <div className="input">
-            <label for="regpass">Password</label>
-            <input type="password" name="regpass" id="regpass" />
-            <span className="spin"></span>
-            </div>
+                <div className="input">
+                <label htmlFor="pass">Password</label>
+                <input type="password" name="pass" id="pass" />
+                <span className="spin"></span>
+                </div>
 
-            <div className="input">
-            <label for="reregpass">Repeat Password</label>
-            <input type="password" name="reregpass" id="reregpass" />
-            <span className="spin"></span>
-            </div>
+                <div className="button login">
+                <button>
+                <span>GO</span> <i className="fa fa-check"></i>
+                </button>
+                </div>
 
-            <div className="button">
-            <button>
-            <span>NEXT</span>
-            </button>
+                <a href="google.com" className="pass-forgot">
+                Forgot your password?
+                </a>
+                </div>
+
+            <div className="overbox">
+                <div className="material-button alt-2">
+                <span className="shape"></span>
+                </div>
+
+                <div className="title">REGISTER</div>
+                <form onSubmit={this.handleSubmit}>
+                    <div className="input">
+                    <label htmlFor="regname">Username</label>
+                    <input type="text" name="regname" id="regname" value={this.state.username} onChange={this.handleUsername} />
+                    <span className="spin"></span>
+                    </div>
+
+                    <div className="input">
+                    <label htmlFor="regpass">Password</label>
+                    <input type="password" name="regpass" id="regpass" value={this.state.pwd} onChange={this.handlePwd}/>
+                    <span className="spin"></span>
+                    </div>
+
+                    <div className="input">
+                    <label htmlFor="reregpass">Repeat Password</label>
+                    <input type="password" name="reregpass" id="reregpass" value={this.state.repeatPwd} onChange={this.handleRepeatPwd}/>
+                    <span className="spin"></span>
+                    </div>
+
+                    <div className="button">
+                    <button type="submit">
+                    <span>NEXT</span>
+                    </button>
+                    </div>
+                    </form>
             </div>
         </div>
-    </div>
-    );
+        );
+    }
 };
 
-export default Connexion;
