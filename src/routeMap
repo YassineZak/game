@@ -1,0 +1,3 @@
+feuille de route :
+
+1/ créer un composant Battlefield qui regroupe les 4 composants et le joueur 1 pour optimiser l'affichage dans le composant parent app
