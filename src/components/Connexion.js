@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import FirebaseApp from './base';
+
 
 export default class Connexion extends Component {
 
@@ -10,6 +10,11 @@ export default class Connexion extends Component {
         repeatPwd: "", 
         email: "",
         error:null
+    }
+
+    isInvalid = () => {
+        const { pwd, repeatPwd, email, username } = this.state;
+        return pwd !== repeatPwd || pwd === '' || email === '' || username === ''
     }
 
     handleUsername = (event) => {
@@ -30,16 +35,26 @@ export default class Connexion extends Component {
     }
 
     handleSubmit = (event) => {
+        console.log(this.props.connexion);
+        
         event.preventDefault()
-        const db = new FirebaseApp();
-        const { username, email, pwd } = this.state;
+        const db = this.props.db
+        const { email, pwd } = this.state;
         db.doCreateUserWithEmailAndPassword(email, pwd)
+        .then(authUser => {
+            this.setState({ ...this.state });
+            })
+        .catch(error => {
+            this.setState({ error });
+            });
         
         //FirebaseApp.database().ref('/').set('test');
         }
 
 
     render(){
+        const { pwd, repeatPwd, email, username } = this.state;
+        const isInvalid = pwd !== repeatPwd || pwd === '' || email === '' || username === '';
         return (
         
                 <div className="materialContainer">
@@ -108,7 +123,9 @@ export default class Connexion extends Component {
                         </div>
 
                         <div className="button">
-                        <button type="submit">
+                        <button disabled={isInvalid}
+                            type="submit"
+                            className={`${isInvalid ? 'disabled' : ''}`}>
                         <span>NEXT</span>
                         </button>
                         </div>

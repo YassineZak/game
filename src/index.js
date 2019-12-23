@@ -5,11 +5,12 @@ import App from './App';
 import Connexion from './components/Connexion';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import FirebaseApp from './components/base';
 
 const Root = () => (
     <BrowserRouter>
         <Switch>
-            <Route exact path="/" component={Connexion} />
+            <Route exact path="/" render={(props) => <Connexion {...props} db={new FirebaseApp()} />}/>
             <Route exact path="/game" component={App} />
         </Switch>
     </BrowserRouter>

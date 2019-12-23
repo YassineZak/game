@@ -1,12 +1,13 @@
 import Firebase from 'firebase/app'
 import 'firebase/auth'
-import config from '../config'
 
 
 
 class FirebaseApp {
 
     constructor() {
+      console.log(Firebase.initializeApp.length);
+      
       Firebase.initializeApp({
         apiKey: "AIzaSyBf_1Rt_QfJQ23AGgB03GdyG09a2JLfRBY",
         authDomain: "game-db020.firebaseapp.com",

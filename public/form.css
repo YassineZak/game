@@ -399,3 +399,8 @@
     list-style-type: none;
     outline: none;
  }
+
+ .disabled {
+   cursor: not-allowed !important;
+   background-color: #b9bdba !important;
+ }
