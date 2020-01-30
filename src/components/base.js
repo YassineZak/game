@@ -6,7 +6,6 @@ import 'firebase/auth'
 class FirebaseApp {
 
     constructor() {
-      console.log(Firebase.initializeApp.length);
       
       Firebase.initializeApp({
         apiKey: "AIzaSyBf_1Rt_QfJQ23AGgB03GdyG09a2JLfRBY",

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ModalError from "./ModalError";
 
 
 export default class Connexion extends Component {
@@ -9,12 +10,8 @@ export default class Connexion extends Component {
         pwd: "",
         repeatPwd: "", 
         email: "",
+        isConnected: false,
         error:null
-    }
-
-    isInvalid = () => {
-        const { pwd, repeatPwd, email, username } = this.state;
-        return pwd !== repeatPwd || pwd === '' || email === '' || username === ''
     }
 
     handleUsername = (event) => {
@@ -35,28 +32,28 @@ export default class Connexion extends Component {
     }
 
     handleSubmit = (event) => {
-        console.log(this.props.connexion);
-        
         event.preventDefault()
         const db = this.props.db
         const { email, pwd } = this.state;
         db.doCreateUserWithEmailAndPassword(email, pwd)
         .then(authUser => {
-            this.setState({ ...this.state });
+            this.setState({ ...this.state })
+            let isConnected = true;
+            this.setState({isConnected})
             })
         .catch(error => {
+            console.log(error);
+            
             this.setState({ error });
             });
-        
-        //FirebaseApp.database().ref('/').set('test');
         }
 
 
     render(){
         const { pwd, repeatPwd, email, username } = this.state;
-        const isInvalid = pwd !== repeatPwd || pwd === '' || email === '' || username === '';
         return (
-        
+                <>
+                <ModalError show={true} animation={true}></ModalError>
                 <div className="materialContainer">
                     <div className="box">
                     <div className="title">LOGIN</div>
@@ -80,9 +77,11 @@ export default class Connexion extends Component {
                     </div>
 
                     <div className="button login">
+                        <a href="#myModal" className="trigger-btn" data-toggle="modal">
                     <button>
-                    <span>GO</span> <i className="fa fa-check"></i>
+                            <span>GO</span> <i className="fa fa-check"></i>
                     </button>
+                        </a>
                     </div>
 
                     <a href="google.com" className="pass-forgot">
@@ -123,15 +122,15 @@ export default class Connexion extends Component {
                         </div>
 
                         <div className="button">
-                        <button disabled={isInvalid}
-                            type="submit"
-                            className={`${isInvalid ? 'disabled' : ''}`}>
+                        <button 
+                            type="submit">
                         <span>NEXT</span>
                         </button>
                         </div>
                         </form>
                 </div>
             </div>
+            </>
         );
     }
 };
