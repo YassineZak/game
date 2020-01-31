@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import ModalError from "./ModalError";
+import $ from 'jquery';
+import 'bootstrap';
 
 
 export default class Connexion extends Component {
@@ -11,7 +13,8 @@ export default class Connexion extends Component {
         repeatPwd: "", 
         email: "",
         isConnected: false,
-        error:null
+        errorApi:null, 
+        errorUser: 'Something goes wrong !!'
     }
 
     handleUsername = (event) => {
@@ -34,26 +37,31 @@ export default class Connexion extends Component {
     handleSubmit = (event) => {
         event.preventDefault()
         const db = this.props.db
-        const { email, pwd } = this.state;
-        db.doCreateUserWithEmailAndPassword(email, pwd)
-        .then(authUser => {
-            this.setState({ ...this.state })
-            let isConnected = true;
-            this.setState({isConnected})
-            })
-        .catch(error => {
-            console.log(error);
-            
-            this.setState({ error });
+        const { email, pwd, repeatPwd } = this.state; 
+        if (pwd !== repeatPwd){
+            const errorUser = "seems that's not the same password in the two fields !!"
+            this.setState({errorUser})
+            $("#modalError").modal('show')
+        }else{
+                db.doCreateUserWithEmailAndPassword(email, pwd)
+            .then(authUser => {
+                this.setState({ ...this.state })
+                let isConnected = true;
+                this.setState({isConnected})
+                })
+            .catch(error => {
+                this.setState({ error })
+                $("#modalError").modal('show')
             });
+            }
         }
+        
 
 
     render(){
-        const { pwd, repeatPwd, email, username } = this.state;
         return (
                 <>
-                <ModalError show={true} animation={true}></ModalError>
+                <ModalError error={this.state.error ? this.state.error.message : this.state.errorUser}></ModalError>
                 <div className="materialContainer">
                     <div className="box">
                     <div className="title">LOGIN</div>

@@ -13,7 +13,7 @@ const ModalError = (props) => {
                 </div>
                 <div className="modal-body text-center">
                     <h4>Ooops!</h4>	
-                    <p>Something went wrong. File was not uploaded.</p>
+                    <p>{props.error}</p>
                     <button className="btn btn-success" data-dismiss="modal">Try Again</button>
                 </div>
             </div>
