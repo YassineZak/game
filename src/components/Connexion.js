@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom"
 import ModalError from "./ModalError";
 import $ from 'jquery';
 import 'bootstrap';
@@ -34,7 +35,7 @@ export default class Connexion extends Component {
         this.setState({email})
     }
 
-    handleSubmit = (event) => {
+    handleRegistration = (event) => {
         event.preventDefault()
         const db = this.props.db
         const { email, pwd, repeatPwd } = this.state; 
@@ -45,9 +46,7 @@ export default class Connexion extends Component {
         }else{
                 db.doCreateUserWithEmailAndPassword(email, pwd)
             .then(authUser => {
-                this.setState({ ...this.state })
-                let isConnected = true;
-                this.setState({isConnected})
+                this.setState({ isConnected: true})
                 })
             .catch(error => {
                 this.setState({ error })
@@ -55,46 +54,58 @@ export default class Connexion extends Component {
             });
             }
         }
+
+    handleSignIn = (event) => {
+        event.preventDefault()
+        const db = this.props.db
+        const { email, pwd } = this.state
+        db.doSignInWithEmailAndPassword(email, pwd)
+            .then(authUser => {
+                this.setState({ isConnected: true})
+                })
+            .catch(error => {
+                this.setState({ error })
+                $("#modalError").modal('show')
+            });
+    }
         
 
 
     render(){
+        const { isConnected } = this.state;
+        if (isConnected){
+            return <Redirect to='/game' />
+        }
         return (
                 <>
                 <ModalError error={this.state.error ? this.state.error.message : this.state.errorUser}></ModalError>
                 <div className="materialContainer">
                     <div className="box">
-                    <div className="title">LOGIN</div>
+                        <form onSubmit={this.handleSignIn}>
+                            <div className="title">LOGIN</div>
 
-                    <div className="input">
-                    <label htmlFor="email">Email</label>
-                    <input type="email" name="email" id="email" />
-                    <span className="spin"></span>
-                    </div>
+                            <div className="input">
+                                <label htmlFor="email">Email</label>
+                                <input type="email" name="email" id="email" value={this.state.email} onChange={this.handleUserEmail} required/>
+                                <span className="spin"></span>
+                            </div>
 
-                    <div className="input">
-                    <label htmlFor="name">Username</label>
-                    <input type="text" name="name" id="name" />
-                    <span className="spin"></span>
-                    </div>
+                            <div className="input">
+                                <label htmlFor="pass">Password</label>
+                                <input type="password" name="pass" id="pass" value={this.state.pwd} onChange={this.handlePwd} required/>
+                                <span className="spin"></span>
+                            </div>
 
-                    <div className="input">
-                    <label htmlFor="pass">Password</label>
-                    <input type="password" name="pass" id="pass" />
-                    <span className="spin"></span>
-                    </div>
+                            <div className="button login">
+                                <button>
+                                <span>GO</span> <i className="fa fa-check"></i>
+                                </button>
+                            </div>
 
-                    <div className="button login">
-                        <a href="#myModal" className="trigger-btn" data-toggle="modal">
-                    <button>
-                            <span>GO</span> <i className="fa fa-check"></i>
-                    </button>
-                        </a>
-                    </div>
-
-                    <a href="google.com" className="pass-forgot">
-                    Forgot your password?
-                    </a>
+                            <a href="google.com" className="pass-forgot">
+                            Forgot your password?
+                            </a>
+                        </form>
                     </div>
 
                 <div className="overbox">
@@ -103,7 +114,7 @@ export default class Connexion extends Component {
                     </div>
 
                     <div className="title">REGISTER</div>
-                    <form onSubmit={this.handleSubmit}>
+                    <form onSubmit={this.handleRegistration}>
 
                         <div className="input">
                         <label htmlFor="regname">Username</label>

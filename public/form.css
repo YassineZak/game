@@ -1,5 +1,6 @@
 .box {
       position: relative;
+      height: 600px;
       top: 0;
       opacity: 1;
       float: left;
