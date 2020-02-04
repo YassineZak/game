@@ -15,7 +15,8 @@ export default class Connexion extends Component {
         email: "",
         isConnected: false,
         errorApi:null, 
-        errorUser: 'Something goes wrong !!'
+        errorUser: 'Something goes wrong !!',
+        notice: null
     }
 
     handleUsername = (event) => {
@@ -68,6 +69,25 @@ export default class Connexion extends Component {
                 $("#modalError").modal('show')
             });
     }
+
+    handleResetPassword = (event) => {
+        event.preventDefault()
+        const db = this.props.db
+        const { email } = this.state
+        db.doSignInWithEmailAndPassword(email)
+            .then(authUser => {
+                console.log('ok')
+                })
+            .catch(error => {
+                this.setState({ error })
+                $("#modalError").modal('show')
+            });
+    }
+    handleClickResetPassword = (event) => {
+        event.preventDefault()
+        $('#login').hide()
+        $('#resetPassword').show()
+    }
         
 
 
@@ -80,7 +100,7 @@ export default class Connexion extends Component {
                 <>
                 <ModalError error={this.state.error ? this.state.error.message : this.state.errorUser}></ModalError>
                 <div className="materialContainer">
-                    <div className="box">
+                    <div className="box" id="login">
                         <form onSubmit={this.handleSignIn}>
                             <div className="title">LOGIN</div>
 
@@ -102,7 +122,7 @@ export default class Connexion extends Component {
                                 </button>
                             </div>
 
-                            <a href="google.com" className="pass-forgot">
+                            <a href="google.com" className="pass-forgot" onClick={this.handleClickResetPassword}>
                             Forgot your password?
                             </a>
                         </form>
@@ -148,6 +168,22 @@ export default class Connexion extends Component {
                         </div>
                         </form>
                 </div>
+                <div className="box" id="resetPassword">
+                        <form onSubmit={this.handleResetPassword}>
+                            <div className="title">Reset Password</div>
+
+                            <div className="input">
+                                <label htmlFor="email">Email</label>
+                                <input type="email" name="email" id="email" value={this.state.email} onChange={this.handleUserEmail} required/>
+                                <span className="spin"></span>
+                            </div>
+                            <div className="button login">
+                                <button type='submit'>
+                                <span>Reset</span> <i className="fa fa-check"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
             </div>
             </>
         );
