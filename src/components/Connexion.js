@@ -13,6 +13,7 @@ export default class Connexion extends Component {
         pwd: "",
         repeatPwd: "", 
         email: "",
+        emailReset: '',
         isConnected: false,
         errorApi:null, 
         errorUser: 'Something goes wrong !!',
@@ -34,6 +35,10 @@ export default class Connexion extends Component {
     handleUserEmail = (event) => {
         const email = event.target.value
         this.setState({email})
+    }
+    handleUserEmailReset = (event) => {
+        const emailReset = event.target.value
+        this.setState({emailReset})
     }
 
     handleRegistration = (event) => {
@@ -74,19 +79,27 @@ export default class Connexion extends Component {
         event.preventDefault()
         const db = this.props.db
         const { email } = this.state
-        db.doSignInWithEmailAndPassword(email)
+        db.doPasswordReset(email)
             .then(authUser => {
-                console.log('ok')
+                this.handleBackConnexion()
                 })
             .catch(error => {
+                $('#resetPassword').hide()
+                $('#login').show()
                 this.setState({ error })
                 $("#modalError").modal('show')
             });
     }
+
     handleClickResetPassword = (event) => {
         event.preventDefault()
         $('#login').hide()
         $('#resetPassword').show()
+    }
+    handleBackConnexion = (event) => {
+        event.preventDefault()
+        $('#resetPassword').hide()
+        $('#login').show()
     }
         
 
@@ -173,15 +186,18 @@ export default class Connexion extends Component {
                             <div className="title">Reset Password</div>
 
                             <div className="input">
-                                <label htmlFor="email">Email</label>
-                                <input type="email" name="email" id="email" value={this.state.email} onChange={this.handleUserEmail} required/>
+                                <label htmlFor="emailReset">Email</label>
+                                <input type="email" name="emailReset" id="emailReset" value={this.state.emailReset} onChange={this.handleUserEmailReset} required/>
                                 <span className="spin"></span>
                             </div>
                             <div className="button login">
-                                <button type='submit'>
+                                <button type='submit' onClick={this.handleResetPassword}>
                                 <span>Reset</span> <i className="fa fa-check"></i>
                                 </button>
                             </div>
+                            <a href="#none" className="pass-forgot" id="connexionBack" onClick={this.handleBackConnexion}>
+                            Connexion page
+                            </a>
                         </form>
                     </div>
             </div>

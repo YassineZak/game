@@ -1,8 +1,6 @@
 import React from 'react';
 
 const ModalError = (props) => {
-    console.log(props);
-    
     return (
         <div id="modalError" className="modal fade" style={{display: 'none'}}>
         <div className="modal-dialog modal-confirm">
