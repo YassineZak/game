@@ -52,7 +52,8 @@ export default class Connexion extends Component {
         }else{
                 db.doCreateUserWithEmailAndPassword(email, pwd)
             .then(authUser => {
-                this.setState({ isConnected: true})
+                this.sendUser()
+                //this.setState({ isConnected: true})
                 })
             .catch(error => {
                 this.setState({ error })
@@ -67,6 +68,7 @@ export default class Connexion extends Component {
         const { email, pwd } = this.state
         db.doSignInWithEmailAndPassword(email, pwd)
             .then(authUser => {
+                this.sendUser()
                 this.setState({ isConnected: true})
                 })
             .catch(error => {
@@ -100,6 +102,11 @@ export default class Connexion extends Component {
         event.preventDefault()
         $('#resetPassword').hide()
         $('#login').show()
+    }
+
+    sendUser = () => {
+        const { username } = this.state;
+        this.props.username (username);
     }
         
 

@@ -6,16 +6,17 @@ import 'firebase/auth'
 class FirebaseApp {
 
     constructor() {
-      
-      Firebase.initializeApp({
-        apiKey: "AIzaSyBf_1Rt_QfJQ23AGgB03GdyG09a2JLfRBY",
-        authDomain: "game-db020.firebaseapp.com",
-        databaseURL: "https://game-db020.firebaseio.com",
-        projectId: "game-db020",
-        storageBucket: "game-db020.appspot.com",
-        messagingSenderId: "1013771238146",
-        appId: "1:1013771238146:web:636b7e719e03af8869a01b"
-      });
+      if(!Firebase.apps.length){
+        Firebase.initializeApp({
+          apiKey: "AIzaSyBf_1Rt_QfJQ23AGgB03GdyG09a2JLfRBY",
+          authDomain: "game-db020.firebaseapp.com",
+          databaseURL: "https://game-db020.firebaseio.com",
+          projectId: "game-db020",
+          storageBucket: "game-db020.appspot.com",
+          messagingSenderId: "1013771238146",
+          appId: "1:1013771238146:web:636b7e719e03af8869a01b"
+        });
+      }
       this.auth = Firebase.auth();
     }
 
